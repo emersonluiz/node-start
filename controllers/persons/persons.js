@@ -4,14 +4,22 @@ var person = {
 
         var email = req.body.email,
             name = req.body.name,
-            id = req.body.id
+            id = req.body.id;
 
         if (email && name) {
             var person = {'name': name, 'email': email};
             if (id) {
-                person._id = id;
+                base.update({_id: id}, person, {upsert: true}, function(err, p) {
+                    if (err) {
+                        console.log("Error: ", err);
+                    } else {
+                        console.log("Update Success")
+                    }
+                })
+            } else {
+                base.create(person);
+                console.log("Create Success")
             }
-            base.create(person);
             res.redirect('/persons');
         }
     },
@@ -28,9 +36,7 @@ var person = {
 
         var query = {_id: id};
         base.findOne(query, function(err, person) {
-            person.remove(function() {
-                res.render('person/edit', {'title': 'Edit Person', 'person': person});
-            });
+            res.render('person/edit', {'title': 'Edit Person', 'person': person});
         });
     },
     remove: function(req, res) {
@@ -40,9 +46,8 @@ var person = {
 
         var query = {_id: id};
         base.findOne(query, function(err, person) {
-            person.remove(function() {
-                res.redirect('/persons');
-            });
+            person.remove();
+            res.redirect('/persons');
         });
     }
 }
