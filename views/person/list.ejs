@@ -1,0 +1,42 @@
+<% include ../header %>
+    <div class="container-fluid">
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="/persons/insert">
+                        <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add
+                    </a>
+                </div>
+            </div>
+        </nav>
+        <div class="panel panel-default">
+            <div class="panel-heading">List Person</div>
+            <div class="panel-body">
+                <div class="list-group">
+                    <% persons.forEach(function(person) { %>
+                        <a class="list-group-item">
+                            <div class="media-body">
+                                <h4 class="list-group-item-heading"><%= person.name %></h4>
+                                <p class="list-group-item-text"><%= person.email %></p>
+                            </div>
+                            <div class="media-right">
+                                <span data-toggle="tooltip" data-placement="bottom" title="Edit" >
+                                    <button type="button" class="btn btn-default" onclick="gotoEdit('<%= person._id %>')">
+                                        <span class="glyphicon glyphicon-pencil"></span>
+                                    </button>
+                                </span>
+                            </div>
+                            <div class="media-right">
+                                <span data-toggle="tooltip" data-placement="bottom" title="Delete" >
+                                    <button type="button" class="btn btn-default" onclick="gotoDelete('<%= person._id %>')">
+                                        <span class="glyphicon glyphicon-trash"></span>
+                                    </button>
+                                </span>
+                            </div>
+                        </a>
+                    <% }); %>
+                </div>
+            </div>
+        </div>
+    </div>
+<% include ../footer %>
